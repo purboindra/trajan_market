@@ -13,6 +13,15 @@ dependencies:
   cached_network_image: 3.2.1
   google_fonts: 2.3.2
   shimmer: 2.0.0
+  get_storage: 2.0.3
+  badges: 2.0.2
+  persistent_bottom_nav_bar_v2: 4.2.3
+  carousel_slider: 4.1.1
+  intl: 0.17.0
+  cloud_firestore: 3.1.17
+  firebase_core: 1.17.1
+  firebase_auth: 3.3.19
+  introduction_screen: 3.0.2
   flutter: 
     sdk: flutter
 
@@ -22,7 +31,7 @@ dev_dependencies:
     sdk: flutter
 
 flutter: 
-  assets:
-   - assets/
+  assets: 
+    - assets/
   uses-material-design: true
 

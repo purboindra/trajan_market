@@ -5,8 +5,10 @@ class Products {
 
   factory Products.fromJson(List<dynamic> parsedJson) {
     List<AllProductsModel> allProductsModel = <AllProductsModel>[];
+
     allProductsModel =
         parsedJson.map((e) => AllProductsModel.fromJson(e)).toList();
+
     return new Products(allProductsModel: allProductsModel);
   }
 }
@@ -29,15 +31,17 @@ class AllProductsModel {
       this.image,
       this.rating});
 
-  AllProductsModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    title = json['title'];
-    price = json['price'];
-    description = json['description'];
-    category = json['category'];
-    image = json['image'];
-    rating =
-        json['rating'] != null ? new Rating.fromJson(json['rating']) : null;
+  factory AllProductsModel.fromJson(Map<String, dynamic> json) {
+    return AllProductsModel(
+      id: json['id'],
+      title: json['title'],
+      price: json['price'],
+      description: json['description'],
+      category: json['category'],
+      image: json['image'],
+      rating:
+          json['rating'] != null ? new Rating.fromJson(json['rating']) : null,
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -62,8 +66,8 @@ class Rating {
   Rating({this.rate, this.count});
 
   Rating.fromJson(Map<String, dynamic> json) {
-    rate = json['rate'];
-    count = json['count'];
+    rate = json['rate'] ?? 0;
+    count = json['count'] ?? 0;
   }
 
   Map<String, dynamic> toJson() {

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:trajan_market/app/services/dimensions.dart';
 import 'package:trajan_market/app/services/theme.dart';
 
@@ -25,7 +23,6 @@ class _ExpandableTextWidgetState extends State<ExpandableTextWidget> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     if (widget.text.length > textHeight) {
       firstHalf = widget.text.substring(0, textHeight.toInt());
@@ -41,12 +38,15 @@ class _ExpandableTextWidgetState extends State<ExpandableTextWidget> {
   Widget build(BuildContext context) {
     return Container(
       child: secondHalf.isEmpty
-          ? Text(firstHalf)
+          ? Text(
+              firstHalf,
+              style: subTitleStyle.copyWith(color: Colors.grey.shade600),
+            )
           : Column(
               children: [
                 Text(
                   hiddenText ? (firstHalf + "...") : (firstHalf + secondHalf),
-                  style: subTitleStyle.copyWith(color: Colors.grey.shade500),
+                  style: subTitleStyle.copyWith(color: Colors.grey.shade600),
                 ),
                 InkWell(
                   onTap: () {
@@ -58,13 +58,15 @@ class _ExpandableTextWidgetState extends State<ExpandableTextWidget> {
                     children: [
                       Text(
                         "Show More",
-                        style: subTitleStyle.copyWith(color: primaryColor),
+                        style: subTitleStyle.copyWith(
+                          color: Colors.black,
+                        ),
                       ),
                       Icon(
                         hiddenText
                             ? Icons.arrow_drop_down
                             : Icons.arrow_drop_up,
-                        color: primaryColor,
+                        color: Colors.black,
                       ),
                     ],
                   ),

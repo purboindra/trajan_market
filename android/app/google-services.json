@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "631366430834",
+    "project_id": "trajan-market",
+    "storage_bucket": "trajan-market.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:631366430834:android:874fc20ba4b4ea6a3fd2eb",
+        "android_client_info": {
+          "package_name": "com.purboindra.trajan_market"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "631366430834-v85vqj73ns0olhsbk6roflrl2j2o07iu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB90HUd-HsbMlPxcGBONn8YxY_9EJeqVkw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "631366430834-v85vqj73ns0olhsbk6roflrl2j2o07iu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -3,21 +3,24 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 Color darkTealColor = Color(0xff006778);
-Color tealColor = Color(0xff0093AB);
+// Color tealColor = Color(0xff0093AB);
 Color lightTealColor = Color(0xff00AFC1);
 Color yellowColor = Color(0xffFFD124);
 Color whiteColor = Colors.white;
-Color primaryColor = tealColor;
+Color primaryColor = Color(0xffD59f55);
 Color darkGrey = Color.fromARGB(255, 58, 58, 58);
 Color darkHeader = Color.fromARGB(255, 170, 170, 170);
+Color greyColor = Color(0xff9aa0ac);
 // Color grey
 Color purpleColor = Colors.purple;
 Color orangeColor = Colors.orange;
-Color backgroundColor = Color(0xffF7f7f7);
+Color backgroundColor = Color(0xfffcfcfc);
+Color lightGrey = Color(0xffa7b2d1);
+// Color backgroundColor = Color(0xfff4f5f6);
 
 class Themes {
   static final light = ThemeData(
-    primaryColor: tealColor,
+    primaryColor: primaryColor,
     backgroundColor: Color.fromARGB(255, 247, 247, 247),
     brightness: Brightness.light,
   );
