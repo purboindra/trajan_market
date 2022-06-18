@@ -9,17 +9,31 @@ class CartRepository {
   final box = GetStorage();
   List<dynamic> cartHistory = [];
 
+  List<String> cartDetails = [];
+
+  void seeDetailsCart(List<CartModel> detailsCart) {
+    var time = DateTime.now().toIso8601String();
+    cartDetails = [];
+    detailsCart.forEach((element) {
+      element.time = time;
+      return cartDetails.add(jsonEncode(element));
+    });
+  }
+
   void addToCart(List<CartModel> cartList) {
     var time = DateTime.now().toString();
     cart = [];
 
+    //Convert object to String
+
     cartList.forEach((element) {
       element.time = time;
+
       return cart.add(jsonEncode(element));
     });
 
     box.write(AppConstant.CART_LIST, cart);
-    getCartList();
+    // getCartList();
   }
 
   List<CartModel> getCartList() {
@@ -39,7 +53,6 @@ class CartRepository {
 
   List<CartModel> getCartHistoryList() {
     if (box.read(AppConstant.CART_HISTORY_LIST) != null) {
-      cartHistory = [];
       cartHistory = box.read(AppConstant.CART_HISTORY_LIST);
     }
     List<CartModel> cartHistoryList = [];
@@ -51,7 +64,6 @@ class CartRepository {
   }
 
   void addToCartHistoryList() {
-    // print('current cart ${cart.length}');
     if (box.read(AppConstant.CART_HISTORY_LIST) != null) {
       cartHistory = box.read(AppConstant.CART_HISTORY_LIST);
     }
@@ -60,12 +72,12 @@ class CartRepository {
     }
     checkOutcartItems();
     box.write(AppConstant.CART_HISTORY_LIST, cartHistory);
-    for (int p = 0; p < getCartHistoryList().length; p++) {}
+    for (int p = 0; p < getCartHistoryList().length; p++);
   }
 
   void checkOutcartItems() {
     cart = [];
-    // box.write(AppConstant.CART_LIST, cart);
+
     box.remove(AppConstant.CART_LIST);
   }
 }

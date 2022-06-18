@@ -15,6 +15,7 @@ class CartView extends GetView<CartController> {
   CartView({required this.page, required this.pageId});
   @override
   Widget build(BuildContext context) {
+    // List<dynamic> moreOrder = Get.arguments;
     var params = Get.parameters;
 
     List<String> imagePayment = [
@@ -23,7 +24,8 @@ class CartView extends GetView<CartController> {
       "assets/logo_pay_point.png",
     ];
 
-    print('from details $params');
+    // print(moreOrder);
+
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
@@ -79,11 +81,9 @@ class CartView extends GetView<CartController> {
                             itemCount: cartC.getItems.length,
                             itemBuilder: (BuildContext context, int index) {
                               var data = cartC.getItems[index];
-                              print("data id is ${data.id}");
+
                               return InkWell(
                                 onTap: () {
-                                  // print("data id ${data.id}");
-                                  // print('page id ${pageId}');
                                   var pageIndex = data.id!.toInt();
                                   var dataIndex = pageIndex - 1;
                                   Get.toNamed(

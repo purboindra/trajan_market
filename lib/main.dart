@@ -10,6 +10,8 @@ import 'package:trajan_market/app/modules/details/controllers/details_controller
 
 import 'package:trajan_market/app/helper/dependencies.dart' as dependencies;
 import 'package:trajan_market/app/modules/home/controllers/home_controller.dart';
+import 'package:trajan_market/app/modules/main/controllers/main_controller.dart';
+import 'package:trajan_market/app/modules/main/views/main_view.dart';
 import 'package:trajan_market/app/modules/sign_in/controllers/sign_in_controller.dart';
 
 import 'package:trajan_market/app/modules/sign_up/controllers/sign_up_controller.dart';
@@ -43,13 +45,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.find<SignInController>();
-    Get.find<SignUpController>();
+    // Get.find<SignInController>();
+    // Get.find<SignUpController>();
+    // Get.find<MainController>();
     final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
-    Get.put(SignInController());
-    Get.put(SignUpController());
-    Get.put(HomeController());
+    // Get.put(SignInController());
+    // Get.put(SignUpController());
+    // Get.put(HomeController());
 
     return FutureBuilder(
       future: _initialization,
@@ -59,7 +62,7 @@ class MyApp extends StatelessWidget {
         }
         if (snapshot.connectionState == ConnectionState.done) {
           return FutureBuilder(
-            future: Future.delayed(Duration(seconds: 3)),
+            future: Future.delayed(Duration.zero),
             builder: ((context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 return Obx(
@@ -75,6 +78,7 @@ class MyApp extends StatelessWidget {
                   ),
                 );
               }
+              // return MainView();
               return FutureBuilder(
                 future: authController.firstInitialized(),
                 builder: ((context, snapshot) => SplashsScreen()),

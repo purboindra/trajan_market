@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:trajan_market/app/model/user_model.dart';
 import 'package:trajan_market/app/modules/home/controllers/home_controller.dart';
+import 'package:trajan_market/app/modules/main/controllers/main_controller.dart';
 import 'package:trajan_market/app/modules/profile/controllers/profile_controller.dart';
 import 'package:trajan_market/app/modules/sign_up/controllers/sign_up_controller.dart';
 import 'package:trajan_market/app/routes/app_pages.dart';
@@ -16,104 +17,104 @@ import 'package:trajan_market/app/services/theme.dart';
 import '../controllers/sign_in_controller.dart';
 
 class SignInView extends GetView<SignInController> {
-  final profileC = Get.put(ProfileController());
+  final signinC = Get.put(SignInController());
   RegExp regExp = RegExp(r'^.{6,}$');
   @override
   Widget build(BuildContext context) {
-    final box = GetStorage();
-
-    if (box.read("sign_in") != null) {
-      print("HAS DATA");
-    } else {
-      print("NOTHING");
-    }
-    Get.put(HomeController());
-    Get.put(SignUpController());
+    Get.put(ProfileController());
+    Future.delayed(Duration.zero, () async {
+      await Get.put(HomeController());
+      // await Get.put(MainController());
+      // await Get.put(SignInController());
+      // await Get.put(ProfileController());
+      await Get.put(SignUpController());
+    });
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: Dimensions.w20,
         ),
         child: SafeArea(
-          child: SingleChildScrollView(
-            child: Form(
-              key: controller.formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: Dimensions.h30,
+          child: Form(
+            key: controller.formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: Dimensions.h30,
+                ),
+                Text(
+                  "Hello, Welcome Back!",
+                  style: subHeadingStyle.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
                   ),
-                  Text(
-                    "Hello, Welcome Back!",
-                    style: subHeadingStyle.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black,
+                ),
+                SizedBox(
+                  height: Dimensions.h10,
+                ),
+                Text(
+                  "Hello again, you\'ve been missed!",
+                  style: titleStyle.copyWith(
+                    fontWeight: FontWeight.w500,
+                    color: greyColor,
+                  ),
+                ),
+                SizedBox(
+                  height: Dimensions.h30,
+                ),
+                _emailField(),
+                SizedBox(
+                  height: Dimensions.h20,
+                ),
+                _passwordField(),
+                SizedBox(
+                  height: Dimensions.h30,
+                ),
+                Row(
+                  children: [
+                    Obx(() => Checkbox(
+                          value: (controller.remember.value),
+                          onChanged: (value) {
+                            controller.rememberMe(value!);
+                          },
+                        )),
+                    SizedBox(
+                      width: Dimensions.w10,
                     ),
-                  ),
-                  SizedBox(
-                    height: Dimensions.h10,
-                  ),
-                  Text(
-                    "Hello again, you\'ve been missed!",
-                    style: titleStyle.copyWith(
-                      fontWeight: FontWeight.w500,
-                      color: greyColor,
-                    ),
-                  ),
-                  SizedBox(
-                    height: Dimensions.h30,
-                  ),
-                  _emailField(),
-                  SizedBox(
-                    height: Dimensions.h20,
-                  ),
-                  _passwordField(),
-                  SizedBox(
-                    height: Dimensions.h30,
-                  ),
-                  Row(
-                    children: [
-                      Obx(() => Checkbox(
-                            value: (controller.remember.value),
-                            onChanged: (value) {
-                              controller.rememberMe(value!);
-                            },
-                          )),
-                      SizedBox(
-                        width: Dimensions.w10,
+                    Expanded(
+                      child: Text(
+                        "Remember Me",
+                        style: titleStyle,
                       ),
-                      Expanded(
-                        child: Text(
-                          "Remember Me",
-                          style: titleStyle,
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: Dimensions.h30,
+                ),
+                Obx(
+                  () => ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        primary: Color(0xff3960dc),
+                        fixedSize: Size(
+                          Get.width,
+                          Dimensions.h30 * 2.2,
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: Dimensions.h30,
-                  ),
-                  Obx(
-                    () => ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: Color(0xff3960dc),
-                          fixedSize: Size(
-                            Get.width,
-                            Dimensions.h30 * 2.2,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                            Dimensions.w15,
                           ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                              Dimensions.w15,
-                            ),
-                          ),
-                          padding: EdgeInsets.symmetric(
-                            horizontal: Dimensions.w20,
-                            vertical: Dimensions.h15,
-                          )),
-                      onPressed: () {
-                        // final box = GetStorage();
-                        // box.remove(AppConstant.SIGN_UP_USER);
+                        ),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: Dimensions.w20,
+                          vertical: Dimensions.h15,
+                        )),
+                    onPressed: () {
+                      if (controller.emailController.text == "" ||
+                          controller.passwordController.text == "") {
+                        print("ERROR");
+                      } else {
                         controller.signInUser(controller.emailController.text,
                             controller.passwordController.text);
 
@@ -124,52 +125,67 @@ class SignInView extends GetView<SignInController> {
                             controller.emailController.text,
                           );
                         }
-                      },
-                      child: controller.loading.isFalse
-                          ? Text(
-                              "Sign in",
-                              style: titleStyle.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            )
-                          : Center(
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
-                              ),
+                      }
+                    },
+                    child: controller.loading.isFalse
+                        ? Text(
+                            "Sign In",
+                            style: titleStyle.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
                             ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: Dimensions.h30,
-                  ),
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: "Dont\'t have an account?",
-                          style: titleStyle.copyWith(
-                            color: lightGrey,
+                          )
+                        : Center(
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
-                        TextSpan(
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              Get.toNamed(Routes.SIGN_UP);
-                            },
-                          text: " Sign up",
-                          style: titleStyle.copyWith(
-                            decoration: TextDecoration.underline,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xff3960dc),
-                          ),
-                        ),
-                      ],
-                    ),
                   ),
-                ],
-              ),
+                ),
+                SizedBox(
+                  height: Dimensions.h30,
+                ),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: "Dont\'t have an account?",
+                        style: titleStyle.copyWith(
+                          color: lightGrey,
+                        ),
+                      ),
+                      TextSpan(
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            Get.toNamed(Routes.SIGN_UP);
+                          },
+                        text: " Sign up",
+                        style: titleStyle.copyWith(
+                          decoration: TextDecoration.underline,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xff3960dc),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
+          ),
+        ),
+      ),
+      bottomNavigationBar: InkWell(
+        onTap: () => Get.offNamedUntil(AppPages.getInitial(), (route) => false),
+        child: Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: Dimensions.w20,
+          ),
+          margin: EdgeInsets.only(
+            bottom: Dimensions.h30,
+          ),
+          child: Text(
+            "Try This App as Visitor",
+            style: titleStyle,
           ),
         ),
       ),

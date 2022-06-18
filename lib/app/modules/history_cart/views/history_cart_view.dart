@@ -1,9 +1,15 @@
+import 'dart:convert';
+
 import 'package:badges/badges.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:trajan_market/app/data/repositories/cart_repositories.dart';
+import 'package:trajan_market/app/model/cart_model.dart';
 import 'package:trajan_market/app/modules/cart/controllers/cart_controller.dart';
+import 'package:trajan_market/app/routes/app_pages.dart';
 import 'package:trajan_market/app/services/dimensions.dart';
 import 'package:trajan_market/app/services/theme.dart';
 
@@ -12,8 +18,8 @@ import '../controllers/history_cart_controller.dart';
 class HistoryCartView extends GetView<HistoryCartController> {
   @override
   Widget build(BuildContext context) {
-    // var cartRepo = CartRepository();
-    var cartHistoryC = Get.find<CartController>().getCartHistoryList();
+    var cartHistoryC =
+        Get.find<CartController>().getCartHistoryList().reversed.toList();
 
     Map<String, int> cartItemsPerOrder = Map();
 
@@ -25,28 +31,32 @@ class HistoryCartView extends GetView<HistoryCartController> {
       }
     }
 
-    List<int> getCartItemsPerOrderList() {
-      return cartItemsPerOrder.entries.map((e) => e.value).toList();
-    }
-
     List<String> cartOrderTimeToList() {
       return cartItemsPerOrder.entries.map((e) => e.key).toList();
     }
 
-    var itemsPerOrder = getCartItemsPerOrderList();
+    List<int> cartItemsPerOrderToList() {
+      // return cartItemsPerOrder.entries.map((e) => e.key).toList();
+      return cartItemsPerOrder.entries.map((e) => e.value).toList();
+    }
 
-    // var dateTime = cartOrderTimeToList();
+    List<String> itemsPerOrder = cartOrderTimeToList();
+
+    List<int> dateTime = cartItemsPerOrderToList();
 
     var listCounter = 0;
+
+    // Get.find<CartController>().addToCartList();
+    Get.find<CartController>().addToDetailsOrder();
 
     // Widget timeWidget(int index) {
     //   var dateOutput = DateTime.now().toIso8601String();
     //   if (index < cartHistoryC.length) {
     //     DateTime dateParse =
-    //         DateFormat("yyyy-MM-dd HH:mmm").parse(dateTime[index]);
+    //         DateFormat("yyyy-MM-dd HH:mmm").parse(cartHistoryC[index].time!);
 
     //     var dateInput = DateTime.parse(dateParse.toIso8601String());
-    //     var formatOutput = DateFormat("MM dd yyyy hh:mm");
+    //     var formatOutput = DateFormat("yyyy/MM/dd/hh:mm");
     //     dateOutput = formatOutput.format(dateInput);
     //   }
     //   return RichText(
@@ -84,11 +94,7 @@ class HistoryCartView extends GetView<HistoryCartController> {
         actions: [
           InkWell(
             onTap: () {
-              // if (pageId != null) {
-              //   Get.toNamed(AppPages.getCartPage(pageId!, page!));
-              // } else {
-              //   print("ERROR $pageId and page $page");
-              // }
+              Get.toNamed(AppPages.getCartPage(listCounter, "cartPage"));
             },
             child: Container(
               margin: EdgeInsets.only(
@@ -143,12 +149,13 @@ class HistoryCartView extends GetView<HistoryCartController> {
               child: ListView(
                 shrinkWrap: true,
                 children: [
-                  for (int i = 0; i < itemsPerOrder.length; i++)
+                  for (int i = 0; i < dateTime.length; i++)
                     Container(
                       margin: EdgeInsets.only(
                         bottom: Dimensions.h10,
                       ),
                       child: Card(
+                        elevation: 0.7,
                         child: Container(
                           padding: EdgeInsets.symmetric(
                             vertical: Dimensions.h10,
@@ -159,81 +166,171 @@ class HistoryCartView extends GetView<HistoryCartController> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Icon(
-                                    Icons.store,
-                                    size: Dimensions.w30,
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.store,
+                                        size: Dimensions.w20,
+                                      ),
+                                      SizedBox(
+                                        width: Dimensions.w5,
+                                      ),
+                                      Text(
+                                        "Trajan Store",
+                                        style: subTitleStyle.copyWith(
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  SizedBox(
-                                    width: Dimensions.w5,
-                                  ),
-                                  Text(
-                                    "Trajan Store",
-                                    style: titleStyle.copyWith(
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
+                                  (() {
+                                    var dateOutput =
+                                        DateTime.now().toIso8601String();
+                                    if (listCounter < cartHistoryC.length) {
+                                      DateTime dateParse = DateFormat(
+                                              "yyyy-MM-dd HH:mm:ss")
+                                          .parse(
+                                              cartHistoryC[listCounter].time!);
+
+                                      var dateInput = DateTime.parse(
+                                          dateParse.toIso8601String());
+                                      var formatOutput = DateFormat("dd/MM/yy");
+                                      dateOutput =
+                                          formatOutput.format(dateInput);
+                                    }
+                                    return RichText(
+                                      text: TextSpan(
+                                        style:
+                                            DefaultTextStyle.of(context).style,
+                                        children: [
+                                          TextSpan(
+                                            text: "${dateOutput}",
+                                            style: subTitleStyle.copyWith(
+                                              color: darkGrey,
+                                            ),
+                                          ),
+                                          TextSpan(text: "  "),
+                                          TextSpan(
+                                              text: "Selesai",
+                                              style: titleStyle.copyWith(
+                                                fontWeight: FontWeight.w600,
+                                                color: primaryColor,
+                                              )),
+                                        ],
+                                      ),
+                                    );
+                                  }()),
+                                  // Expanded(
+                                  //   child: timeWidget(i),
+                                  // ),
                                 ],
                               ),
                               SizedBox(
                                 height: Dimensions.h10,
                               ),
                               Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Expanded(
                                     child: SingleChildScrollView(
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Wrap(
-                                            direction: Axis.horizontal,
-                                            children: List.generate(
-                                                itemsPerOrder[i], (index) {
-                                              if (listCounter <
-                                                  cartHistoryC.length) {
-                                                listCounter++;
-                                              }
-                                              return Container(
-                                                child: Row(
-                                                  children: [
-                                                    Container(
-                                                      margin: EdgeInsets.only(
-                                                        right: Dimensions.w10,
-                                                      ),
-                                                      width: 50,
-                                                      height: 60,
-                                                      decoration: BoxDecoration(
-                                                          image: DecorationImage(
-                                                              image: NetworkImage(
-                                                                  "${cartHistoryC[listCounter - 1].image}"))),
-                                                    ),
-                                                  ],
-                                                ),
-                                              );
-                                            }),
-                                          ),
-                                          SizedBox(
-                                            width: Dimensions.w10,
-                                          ),
-                                        ],
+                                      scrollDirection: Axis.horizontal,
+                                      child: Wrap(
+                                        // runSpacing: Dimensions.w20,
+                                        // spacing: Dimensions.w10,
+                                        direction: Axis.horizontal,
+                                        children:
+                                            List.generate(dateTime[i], (index) {
+                                          if (listCounter <
+                                              cartHistoryC.length) {
+                                            listCounter++;
+                                          }
+                                          return Container(
+                                            margin: EdgeInsets.only(
+                                              right: Dimensions.w10,
+                                            ),
+                                            width: Dimensions.w30 * 2,
+                                            height: Dimensions.w30 * 2,
+                                            decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                image: NetworkImage(
+                                                    "${cartHistoryC[listCounter - 1].image}"),
+                                                fit: BoxFit.contain,
+                                              ),
+                                            ),
+                                          );
+                                        }),
                                       ),
                                     ),
                                   ),
+                                  SizedBox(
+                                    width: Dimensions.w10,
+                                  ),
                                 ],
                               ),
-                              Column(
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "${cartHistoryC[listCounter - 1].title}",
-                                    style: subTitleStyle.copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      color: darkGrey,
+                                    "${dateTime[i]} Items",
+                                    style: titleStyle.copyWith(
+                                      color: Colors.black,
                                     ),
-                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                  SizedBox(
-                                    height: Dimensions.h5,
+                                  OutlinedButton(
+                                    onPressed: () {
+                                      Map<num, CartModel> moreOrder = {};
+
+                                      for (int j = 0;
+                                          j < cartHistoryC.length;
+                                          j++) {
+                                        if (cartHistoryC[j].time ==
+                                            itemsPerOrder[i]) {
+                                          print(cartHistoryC[j].title);
+                                          moreOrder.putIfAbsent(
+                                            cartHistoryC[j].id!,
+                                            () => CartModel.fromJson(
+                                              jsonDecode(
+                                                jsonEncode(
+                                                  cartHistoryC[j],
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                      }
+
+                                      Get.find<CartController>().setDetails =
+                                          moreOrder;
+
+                                      Get.find<CartController>()
+                                          .addToDetailsOrder();
+
+                                      var page = {"page": "historyCart"};
+                                      Get.toNamed(Routes.DETAILS_HISTORY_CART,
+                                          parameters: page);
+                                    },
+                                    style: ButtonStyle(
+                                        side: MaterialStateProperty.all(
+                                          BorderSide(
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        shape: MaterialStateProperty.all(
+                                          RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                                Dimensions.w15 / 2),
+                                          ),
+                                        )),
+                                    child: Text(
+                                      "See Details",
+                                      style: subTitleStyle.copyWith(
+                                        color: Colors.black,
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -249,7 +346,9 @@ class HistoryCartView extends GetView<HistoryCartController> {
               child: Text("NOTHING"),
             ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Get.find<CartController>().removeCartHistory();
+        },
       ),
     );
   }

@@ -122,18 +122,25 @@ class DetailsController extends GetxController {
     exist = _cartC.existInCart(allProductsModel);
 
     if (exist) {
-      // print("is exist ${allProductsModel.id} $exist");
       _inCartItems.value = _cartC.getQuantity(allProductsModel);
     }
     update();
   }
 
   void addProductItem(AllProductsModel allProductsModel) {
+    // print("prev ${_cartC.itemsDetails.length}");
     _cartC.addItems(allProductsModel, _quantity.value);
     _quantity = 1.obs;
-    _cartC.items.forEach((key, value) {
-      // print("id is ${value.id} and the quantity is ${value.quantity}");
-    });
+    // _cartC.items.forEach((key, value) {
+    //   print(
+    //       " items id is ${value.id} title is ${value.title} and quantitiy is ${value.quantity}");
+    // });
+    // // print("current ${_cartC.itemsDetails.length}");
+    // _cartC.itemsDetails.forEach((key, value) {
+    //   print(
+    //       " items details id is ${value.id} title is ${value.title} and quantitiy is ${value.quantity}");
+    // });
+
     update();
   }
 

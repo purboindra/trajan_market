@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:trajan_market/app/modules/cart/views/cart_view.dart';
+import 'package:trajan_market/app/modules/details_history_cart/views/details_history_cart_view.dart';
 import 'package:trajan_market/app/modules/favourite/views/favourite_view.dart';
 import 'package:trajan_market/app/modules/history_cart/views/history_cart_view.dart';
 import 'package:trajan_market/app/modules/introduction/views/introduction_view.dart';
@@ -34,6 +35,9 @@ class AppPages {
 
   static String getProfilePage(int pageId, String page) =>
       "${Routes.PROFILE}?pageId=$pageId&page=$page}";
+
+  static String getDetailsCart(int pageId, String page) =>
+      "${Routes.DETAILS_HISTORY_CART}?pageId=$pageId&page=$page}";
 
   static const INITIAL = Routes.MAIN;
 
@@ -110,6 +114,21 @@ class AppPages {
       page: () => SignInView(),
       transition: Transition.topLevel,
     ),
-    GetPage(name: _Paths.INTRODUCTION, page: () => IntroductionView()),
+    GetPage(
+      name: _Paths.INTRODUCTION,
+      page: () => IntroductionView(),
+    ),
+    GetPage(
+      name: _Paths.DETAILS_HISTORY_CART,
+      page: () {
+        // var pageId = Get.parameters["pageId"];
+        // int index = int.parse(pageId!);
+        // var page = Get.parameters["page"];
+        return DetailsHistoryCartView(
+            // page: page!,
+            // pageId: index,
+            );
+      },
+    ),
   ];
 }

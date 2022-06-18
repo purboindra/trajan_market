@@ -72,7 +72,6 @@ class CartModel {
     if (this.rating != null) {
       data['rating'] = this.rating!.toJson();
     }
-
     data["isExist"] = this.isExist;
     data["quantity"] = this.quantity;
     data["time"] = this.time;

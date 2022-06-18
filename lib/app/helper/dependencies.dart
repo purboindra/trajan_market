@@ -7,6 +7,7 @@ import 'package:trajan_market/app/data/repositories/cart_repositories.dart';
 import 'package:trajan_market/app/data/repositories/favourite_repositories.dart';
 import 'package:trajan_market/app/modules/cart/controllers/cart_controller.dart';
 import 'package:trajan_market/app/modules/details/controllers/details_controller.dart';
+import 'package:trajan_market/app/modules/details_history_cart/controllers/details_history_cart_controller.dart';
 import 'package:trajan_market/app/modules/favourite/controllers/favourite_controller.dart';
 import 'package:trajan_market/app/modules/home/controllers/home_controller.dart';
 import 'package:trajan_market/app/modules/introduction/controllers/introduction_controller.dart';
@@ -28,6 +29,7 @@ Future<void> init() async {
   Get.lazyPut(() => SignInController());
   Get.lazyPut(() => IntroductionController());
   Get.lazyPut(() => AuthController());
+  Get.lazyPut(() => DetailsHistoryCartController());
 
   //Repositories
   Get.lazyPut(() => AllProductRepository(apiClient: Get.find()));

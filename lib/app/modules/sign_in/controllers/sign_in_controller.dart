@@ -32,8 +32,6 @@ class SignInController extends GetxController {
         password: password,
       )
           .then((uid) {
-        // print("auth ${_auth.currentUser!.email}");
-
         box.write(AppConstant.SKIP_INTRO, true);
 
         Get.offNamedUntil(AppPages.getInitial(), (route) => false);

@@ -10,7 +10,7 @@ Color whiteColor = Colors.white;
 Color primaryColor = Color(0xffD59f55);
 Color darkGrey = Color.fromARGB(255, 58, 58, 58);
 Color darkHeader = Color.fromARGB(255, 170, 170, 170);
-Color greyColor = Color(0xff9aa0ac);
+Color greyColor = Color(0xffbdc1c7);
 // Color grey
 Color purpleColor = Colors.purple;
 Color orangeColor = Colors.orange;

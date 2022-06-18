@@ -23,9 +23,9 @@ class DetailsView extends GetView<DetailsController> {
   @override
   Widget build(BuildContext context) {
     var params = Get.parameters;
-    print(params);
+    // print(params);
     var arguments = Get.arguments;
-    print("from cart view $arguments");
+    // print("from cart view $arguments");
     Get.put(HomeController());
     List<String> size = [
       "S",
@@ -35,10 +35,13 @@ class DetailsView extends GetView<DetailsController> {
       "XXL",
     ];
 
+    // var dataDetails = Get.find<CartController>().getDetailsItemsCart[pageId];
+
     var data = Get.find<HomeController>().allProductList[pageId];
-    print("from details ${data.id}");
-    var index = data.id!.toInt();
-    print("index $index");
+    var detailsData = Get.find<CartController>().getDetailsItemsCart[pageId];
+
+    // var index = data.id!.toInt();
+
     // if (Get.find<CartController>().getItems[pageId] != null) {
     // print(
     //     "quantity from cart view ${Get.find<CartController>().getItems[index].quantity}");
@@ -66,17 +69,12 @@ class DetailsView extends GetView<DetailsController> {
           onTap: () {
             if (params["page"] == "favourite") {
               Get.offNamedUntil(Routes.MAIN, (route) => false);
+            } else if (params["page"] == 'details' ||
+                params["page"] == "detailsOrder" ||
+                params["page"] == "home") {
+              Get.back();
             } else {
-              if (params["page"] == "details") {
-                Get.back();
-              } else if (params["page"] == "home") {
-                Get.back();
-                // Get.offNamed(
-                //   AppPages.getCartPage(pageId, page),
-                // );
-              } else {
-                Get.offNamed(Routes.HOME);
-              }
+              Get.offNamed(Routes.HOME);
             }
           },
           child: Icon(
@@ -420,7 +418,7 @@ class DetailsView extends GetView<DetailsController> {
                                                 InkWell(
                                                   onTap: () {
                                                     detailsC.setQuantity(true);
-                                                    print(detailsC.quantity);
+                                                    // print(detailsC.quantity);
                                                   },
                                                   child: Container(
                                                     width: Dimensions.w30 +
@@ -543,6 +541,12 @@ class DetailsView extends GetView<DetailsController> {
                                             ),
                                             onPressed: () async {
                                               controller.addProductItem(data);
+                                              // print(Get.find<CartController>()
+                                              //     .getDetailsItemsCart
+                                              //     .length);
+                                              print(detailsData.title);
+                                              print(
+                                                  "data title is ${data.title} and quantity is ${controller.inCartItems}");
                                               Get.defaultDialog(
                                                 title: "Success add to cart",
                                                 content: Container(

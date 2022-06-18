@@ -10,6 +10,8 @@ import 'package:trajan_market/app/modules/cart/controllers/cart_controller.dart'
 import 'package:trajan_market/app/modules/details/controllers/details_controller.dart';
 import 'package:trajan_market/app/modules/favourite/controllers/favourite_controller.dart';
 import 'package:trajan_market/app/modules/home/controllers/home_controller.dart';
+import 'package:trajan_market/app/modules/sign_in/controllers/sign_in_controller.dart';
+import 'package:trajan_market/app/modules/sign_up/controllers/sign_up_controller.dart';
 import 'package:trajan_market/app/routes/app_pages.dart';
 
 import 'package:trajan_market/app/services/dimensions.dart';
@@ -34,48 +36,39 @@ class MainView extends GetView<MainController> {
   final box = GetStorage();
   Map<String, dynamic> _user = {};
 
+  // final mainC = Get.find<MainController>();
+  // final mainC = Get.put(MainController());
   @override
   Widget build(BuildContext context) {
-    // var userModel = UserModel();
-    // if (box.read(AppConstant.SIGN_UP_USER) != null) {
-    //   // print(box.read(AppConstant.SIGN_UP_USER));
-    //   // _user = box.read(AppConstant.SIGN_UP_USER);
-    //   // _user.forEach((key, value) {
-    //   //   print("for each ${value.email} and ${value.firstName}");
-    //   // });
-
-    //   _user = box.read(AppConstant.SIGN_UP_USER);
-    //   _user.forEach((key, value) {
-    //     print("for each ${value}");
-    //   });
-    //   // print("user model ${userModel.email} and name ${userModel.firstName}");
-    // }
-    Get.find<MainController>();
+    Get.put(MainController());
     Future.delayed(Duration.zero, () async {
       await Get.put(DetailsController(favouriteRepositories: Get.find()));
       await Get.put(CartController(cartRepository: Get.find()));
       await Get.put(CartRepository());
       await Get.put(FavouriteController());
-      await Get.put(MainController());
-      await Get.put(HomeController());
+      await Get.put(SignInController());
+      await Get.put(SignUpController());
+
+      // await Get.put(HomeController());
     });
     return Scaffold(
-        body: Obx(
-          () => controller.pages[controller.selectedIndex],
+      body: Obx(
+        () => controller.pages[controller.selectedIndex],
+      ),
+      bottomNavigationBar: Obx(
+        () => BottomNavigationBar(
+          currentIndex: controller.selectedIndex,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          unselectedItemColor: greyColor,
+          selectedItemColor: darkGrey,
+          onTap: (value) {
+            controller.onTapBottomNav(value);
+          },
+          items: controller.navBarsItems(),
         ),
-        bottomNavigationBar: Obx(
-          () => BottomNavigationBar(
-            currentIndex: controller.selectedIndex,
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
-            unselectedItemColor: greyColor,
-            selectedItemColor: darkGrey,
-            onTap: (value) {
-              controller.onTapBottomNav(value);
-            },
-            items: controller.navBarsItems(),
-          ),
-        ));
+      ),
+    );
   }
 
   Widget buildMain() {
@@ -111,14 +104,16 @@ class MainView extends GetView<MainController> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Obx(() => Text(
-                            controller.dataUser.value.firstName != null
-                                ? '${controller.dataUser.value.firstName}'
-                                : "",
-                            style: subHeadingStyle.copyWith(
-                              color: Colors.black,
-                            ),
-                          )),
+                      Obx(
+                        () => controller.dataUser.value.firstName != null
+                            ? Text(
+                                '${controller.dataUser.value.firstName}',
+                                style: subHeadingStyle.copyWith(
+                                  color: Colors.black,
+                                ),
+                              )
+                            : Text("Login first"),
+                      ),
                       SizedBox(
                         height: Dimensions.h5,
                       ),
@@ -149,7 +144,7 @@ class MainView extends GetView<MainController> {
             SizedBox(
               height: Dimensions.h20,
             ),
-
+            //banner
             CarouselSlider(
               options: CarouselOptions(
                 autoPlay: false,
@@ -185,6 +180,8 @@ class MainView extends GetView<MainController> {
             SizedBox(
               height: Dimensions.h20,
             ),
+
+            //body
             Obx(() => Expanded(
                   child: GridView.builder(
                       shrinkWrap: true,

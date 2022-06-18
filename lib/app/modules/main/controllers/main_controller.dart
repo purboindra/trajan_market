@@ -121,10 +121,4 @@ class MainController extends GetxController {
       this.dataUser.value = UserModel.fromJson(value.data()!);
     });
   }
-
-  @override
-  void onInit() {
-    // TODO: implement onInit
-    super.onInit();
-  }
 }

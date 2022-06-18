@@ -50,14 +50,12 @@ class SignUpController extends GetxController {
       });
     }
 
-    // Get.to(() => TestPage());
     Get.offNamedUntil(AppPages.getInitial(), (route) => false);
 
     loading.value = false;
   }
 
   postDataUser() async {
-    print("prev user model ${userModel.firstName}");
     User? user = _auth.currentUser;
     loading.value = true;
 
@@ -72,10 +70,6 @@ class SignUpController extends GetxController {
     firestore.collection("users").doc(user.uid).set(
           userModel.toJson(),
         );
-
-    print("current user model ${userModel.firstName}");
-
-    print("current user model ${userModel.firstName}");
 
     box.write(AppConstant.SIGN_UP_USER, userModel);
 
