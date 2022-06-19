@@ -65,7 +65,7 @@ class CartController extends GetxController {
       total.value += value.quantity! * value.price!;
     });
 
-    return total.value;
+    return total.value.toPrecision(2);
   }
 
   void addItems(AllProductsModel allProductsModel, int quantity) {

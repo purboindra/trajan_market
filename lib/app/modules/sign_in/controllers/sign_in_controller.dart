@@ -20,7 +20,6 @@ class SignInController extends GetxController {
 
   void rememberMe(bool value) {
     remember.value = value;
-    print("remember me $value");
   }
 
   void signInUser(String email, password) async {
@@ -33,6 +32,7 @@ class SignInController extends GetxController {
       )
           .then((uid) {
         box.write(AppConstant.SKIP_INTRO, true);
+        loading.value = false;
 
         Get.offNamedUntil(AppPages.getInitial(), (route) => false);
       }).catchError((e) {

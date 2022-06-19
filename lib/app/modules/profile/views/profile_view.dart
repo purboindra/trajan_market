@@ -25,7 +25,8 @@ class ProfileView extends GetView<ProfileController> {
   });
   @override
   Widget build(BuildContext context) {
-    (AppConstant.SIGN_UP_USER);
+    // (AppConstant.SIGN_UP_USER);
+    Get.put(ProfileController());
 
     return Scaffold(
       backgroundColor: backgroundColor,

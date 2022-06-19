@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:trajan_market/app/services/dimensions.dart';
+import 'package:trajan_market/app/services/theme.dart';
 
 class SplashsScreen extends StatelessWidget {
   const SplashsScreen({Key? key}) : super(key: key);
@@ -18,10 +20,19 @@ class SplashsScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  width: Get.width,
+                  width: Dimensions.w30 * 5,
                   child: Image.asset(
-                    "assets/splash.png",
+                    "assets/logo.png",
                     fit: BoxFit.cover,
+                  ),
+                ),
+                SizedBox(
+                  height: Dimensions.h20,
+                ),
+                Text(
+                  "Trajan Market",
+                  style: subHeadingStyle.copyWith(
+                    color: Colors.black,
                   ),
                 ),
               ],
