@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:trajan_market/app/data/repositories/cart_repositories.dart';
 import 'package:trajan_market/app/data/repositories/favourite_repositories.dart';
 import 'package:trajan_market/app/model/all_products_model.dart';
 import 'package:trajan_market/app/model/favourite_model.dart';
@@ -128,18 +129,10 @@ class DetailsController extends GetxController {
   }
 
   void addProductItem(AllProductsModel allProductsModel) {
-    // print("prev ${_cartC.itemsDetails.length}");
-    _cartC.addItems(allProductsModel, _quantity.value);
+    var cartC = Get.find<CartController>();
+
+    cartC.addItems(allProductsModel, _quantity.value);
     _quantity = 1.obs;
-    // _cartC.items.forEach((key, value) {
-    //   print(
-    //       " items id is ${value.id} title is ${value.title} and quantitiy is ${value.quantity}");
-    // });
-    // // print("current ${_cartC.itemsDetails.length}");
-    // _cartC.itemsDetails.forEach((key, value) {
-    //   print(
-    //       " items details id is ${value.id} title is ${value.title} and quantitiy is ${value.quantity}");
-    // });
 
     update();
   }

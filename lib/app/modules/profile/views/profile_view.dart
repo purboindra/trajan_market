@@ -100,55 +100,101 @@ class ProfileView extends GetView<ProfileController> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    ClipOval(
-                      child: Container(
-                        width: Dimensions.w30 * 2.2,
-                        height: Dimensions.h30 * 2.2,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage("assets/casual.jpeg"),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ),
+                    GetBuilder<MainController>(builder: (mainC) {
+                      return mainC.dataUser.value.photoUrl == null
+                          ? ClipOval(
+                              child: Container(
+                                width: Dimensions.w30 * 2.2,
+                                height: Dimensions.h30 * 2.2,
+                                decoration: BoxDecoration(
+                                  color: greyColor,
+                                ),
+                                child: Center(
+                                  child: Icon(
+                                    CupertinoIcons.person,
+                                    size: Dimensions.w30 * 1.7,
+                                    color: Colors.grey.shade200,
+                                  ),
+                                ),
+                              ),
+                            )
+                          : ClipOval(
+                              child: Container(
+                                width: Dimensions.w30 * 2.2,
+                                height: Dimensions.h30 * 2.2,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: AssetImage("assets/casual.jpeg"),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            );
+                    }),
+                    // ClipOval(
+                    //   child: Container(
+                    //     width: Dimensions.w30 * 2.2,
+                    //     height: Dimensions.h30 * 2.2,
+                    //     decoration: BoxDecoration(
+                    //       image: DecorationImage(
+                    //         image: AssetImage("assets/casual.jpeg"),
+                    //         fit: BoxFit.cover,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                     SizedBox(
                       width: Dimensions.w15,
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        GetBuilder<MainController>(builder: (mainC) {
-                          return Text(
+                    GetBuilder<MainController>(builder: (mainC) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
                             mainC.dataUser.value.firstName != null
                                 ? "${mainC.dataUser.value.firstName}"
                                 : "",
                             style: subHeadingStyle.copyWith(
                               color: Colors.black,
                             ),
-                          );
-                        }),
-                        Row(
-                          children: [
-                            Text(
-                              "Office",
-                              style: titleStyle.copyWith(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            SizedBox(
-                              width: Dimensions.w5,
-                            ),
-                            Icon(
-                              CupertinoIcons.chevron_down,
-                              color: Colors.black,
-                              size: Dimensions.w20 - 2,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                          ),
+                          mainC.dataUser.value.address != null
+                              ? Row(
+                                  children: [
+                                    Text(
+                                      "Office",
+                                      style: titleStyle.copyWith(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: Dimensions.w5,
+                                    ),
+                                    Icon(
+                                      CupertinoIcons.chevron_down,
+                                      color: Colors.black,
+                                      size: Dimensions.w20 - 2,
+                                    ),
+                                  ],
+                                )
+                              : InkWell(
+                                  onTap: () {},
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "Please add your address",
+                                        style: titleStyle.copyWith(
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                        ],
+                      );
+                    }),
                   ],
                 ),
                 SizedBox(

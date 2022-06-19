@@ -2,6 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:trajan_market/app/data/repositories/cart_repositories.dart';
+import 'package:trajan_market/app/data/repositories/favourite_repositories.dart';
+import 'package:trajan_market/app/model/all_products_model.dart';
 import 'package:trajan_market/app/modules/details/controllers/details_controller.dart';
 import 'package:trajan_market/app/modules/home/controllers/home_controller.dart';
 import 'package:trajan_market/app/routes/app_pages.dart';
@@ -49,75 +52,77 @@ class FavouriteView extends GetView<FavouriteController> {
               )),
         ],
       ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: Dimensions.w20,
-        ),
-        child: Container(
-          margin: EdgeInsets.only(
-            top: Dimensions.h20,
+      body: FutureBuilder<List<AllProductsModel>>(builder: (context, snapshot) {
+        return Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: Dimensions.w20,
           ),
-          child: GetBuilder<DetailsController>(builder: (detailsC) {
-            Get.find<HomeController>();
-            return detailsC.getFavItems.length != 0
-                ? Obx(
-                    () => controller.changeItem.isTrue
-                        ? _buildGrid(detailsC)
-                        : _buildList(detailsC),
-                  )
-                : Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          height: Dimensions.h20 * 10,
-                          child: Image.asset(
-                            "assets/empty_favourite.png",
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        SizedBox(
-                          height: Dimensions.h10,
-                        ),
-                        Text(
-                          "Oops.. you have nothing here",
-                          style: titleStyle.copyWith(
-                            color: Colors.black,
-                          ),
-                        ),
-                        SizedBox(
-                          height: Dimensions.h20,
-                        ),
-                        Container(
-                          width: Dimensions.w20 * 15,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.black,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              padding: EdgeInsets.all(
-                                Dimensions.w15,
-                              ),
-                            ),
-                            onPressed: () {
-                              // Get.offNamed(AppPages.getInitial());
-                            },
-                            child: Text(
-                              "Start Shopping",
-                              style: titleStyle.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                              ),
+          child: Container(
+            margin: EdgeInsets.only(
+              top: Dimensions.h20,
+            ),
+            child: GetBuilder<DetailsController>(builder: (detailsC) {
+              Get.find<HomeController>();
+              return detailsC.getFavItems.length != 0
+                  ? Obx(
+                      () => controller.changeItem.isTrue
+                          ? _buildGrid(detailsC)
+                          : _buildList(detailsC),
+                    )
+                  : Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: Dimensions.h20 * 10,
+                            child: Image.asset(
+                              "assets/empty_favourite.png",
+                              fit: BoxFit.cover,
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  );
-          }),
-        ),
-      ),
+                          SizedBox(
+                            height: Dimensions.h10,
+                          ),
+                          Text(
+                            "Oops.. you have nothing here",
+                            style: titleStyle.copyWith(
+                              color: Colors.black,
+                            ),
+                          ),
+                          SizedBox(
+                            height: Dimensions.h20,
+                          ),
+                          Container(
+                            width: Dimensions.w20 * 15,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.black,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                padding: EdgeInsets.all(
+                                  Dimensions.w15,
+                                ),
+                              ),
+                              onPressed: () {
+                                // Get.offNamed(AppPages.getInitial());
+                              },
+                              child: Text(
+                                "Start Shopping",
+                                style: titleStyle.copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+            }),
+          ),
+        );
+      }),
     );
   }
 
@@ -133,34 +138,35 @@ class FavouriteView extends GetView<FavouriteController> {
             onTap: () {
               var dataFav = _dataFav.id!.toInt();
               var favData = dataFav - 1;
-              Future.delayed(Duration.zero, () async {
-                if (Get.find<HomeController>().allProductList.length != 0 &&
-                    Get.find<HomeController>().getAllProducts() != null) {
-                  Get.toNamed(
-                    AppPages.getDetailsPage(favData, "favourite"),
-                  );
-                } else {
-                  Get.dialog(Center(
-                    child: CircularProgressIndicator(),
-                  ));
-                  await Future.delayed(
-                    Duration(seconds: 1),
-                    () async {
-                      if (Get.find<HomeController>().allProductList.length !=
-                              0 &&
-                          Get.find<HomeController>().getAllProducts() != 0) {
-                        Get.toNamed(
-                          AppPages.getDetailsPage(favData, "favourite"),
-                        );
-                      } else {
-                        Get.defaultDialog(title: "WRONG");
-                        await Future.delayed(Duration.zero, () => Get.back());
-                        Get.back();
-                      }
-                    },
-                  );
-                }
-              });
+              // Future.delayed(Duration.zero, () async {
+              //   if (Get.find<HomeController>().allProductList.length != 0 &&
+              //       Get.find<HomeController>().getAllData() != null) {
+              //     Get.toNamed(
+              //       AppPages.getDetailsPage(favData, "favourite"),
+              //     );
+              //   } else {
+              //     Get.dialog(Center(
+              //       child: CircularProgressIndicator(),
+              //     ));
+              //     await Future.delayed(
+              //       Duration(seconds: 1),
+              //       () async {
+              //         if (Get.find<HomeController>().allProductList.length !=
+              //                 0 &&
+              //             Get.find<HomeController>().getAllData() != 0) {
+              //           Get.toNamed(
+              //             AppPages.getDetailsPage(favData, "favourite"),
+              //           );
+              //         } else {
+              //           Get.defaultDialog(title: "WRONG");
+              //           await Future.delayed(Duration.zero, () => Get.back());
+              //           Get.back();
+              //         }
+              //       },
+              //     );
+              //   }
+              // });
+              Get.toNamed(AppPages.getDetailsPage(favData, "favourite"));
             },
             child: Card(
               elevation: 1.5,
@@ -236,33 +242,35 @@ class FavouriteView extends GetView<FavouriteController> {
           onTap: () {
             var dataFav = _dataFav.id!.toInt();
             var favData = dataFav - 1;
-            Future.delayed(Duration.zero, () async {
-              if (Get.find<HomeController>().allProductList.length != 0 &&
-                  Get.find<HomeController>().getAllProducts() != 0) {
-                Get.toNamed(
-                  AppPages.getDetailsPage(favData, "favourite"),
-                );
-              } else {
-                Get.dialog(Center(
-                  child: CircularProgressIndicator(),
-                ));
-                await Future.delayed(
-                  Duration(seconds: 1),
-                  () async {
-                    if (Get.find<HomeController>().allProductList.length != 0 &&
-                        Get.find<HomeController>().getAllProducts() != null) {
-                      Get.toNamed(
-                        AppPages.getDetailsPage(favData, "favourite"),
-                      );
-                    } else {
-                      Get.defaultDialog(title: "WRONG");
-                      await Future.delayed(Duration.zero, () => Get.back());
-                      Get.back();
-                    }
-                  },
-                );
-              }
-            });
+            print("favData $favData");
+            // Future.delayed(Duration.zero, () async {
+            //   if (Get.find<HomeController>().allProductList.length != 0 &&
+            //       Get.find<HomeController>().getAllData() != 0) {
+            //     Get.toNamed(
+            //       AppPages.getDetailsPage(favData, "favourite"),
+            //     );
+            //   } else {
+            //     Get.dialog(Center(
+            //       child: CircularProgressIndicator(),
+            //     ));
+            //     await Future.delayed(
+            //       Duration(seconds: 1),
+            //       () async {
+            //         if (Get.find<HomeController>().allProductList.length != 0 &&
+            //             Get.find<HomeController>().getAllData() != null) {
+            //           Get.toNamed(
+            //             AppPages.getDetailsPage(favData, "favourite"),
+            //           );
+            //         } else {
+            //           Get.defaultDialog(title: "WRONG");
+            //           await Future.delayed(Duration.zero, () => Get.back());
+            //           Get.back();
+            //         }
+            //       },
+            //     );
+            //   }
+            // });
+            Get.toNamed(AppPages.getDetailsPage(favData, "favourite"));
           },
           child: Card(
             elevation: 1.5,

@@ -117,6 +117,7 @@ class AppPages {
     GetPage(
       name: _Paths.INTRODUCTION,
       page: () => IntroductionView(),
+      transition: Transition.topLevel,
     ),
     GetPage(
       name: _Paths.DETAILS_HISTORY_CART,
@@ -129,6 +130,7 @@ class AppPages {
             // pageId: index,
             );
       },
+      transition: Transition.topLevel,
     ),
   ];
 }

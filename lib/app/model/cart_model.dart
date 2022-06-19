@@ -11,6 +11,7 @@ class CartModel {
   int? quantity;
   bool? isExist;
   String? time;
+  int? paymentMethod;
   AllProductsModel? allProductsModel;
 
   CartModel({
@@ -25,6 +26,7 @@ class CartModel {
     this.quantity,
     this.time,
     this.allProductsModel,
+    this.paymentMethod,
   });
 
   // factory CartModel.fromJson(Map<String, dynamic> json) {
@@ -58,6 +60,7 @@ class CartModel {
     allProductsModel = json["allProductsModel"] != null
         ? AllProductsModel.fromJson(json["allProductsModel"])
         : null;
+    paymentMethod = json["paymentMethod"];
   }
 
   Map<String, dynamic> toJson() {
@@ -76,6 +79,7 @@ class CartModel {
     data["quantity"] = this.quantity;
     data["time"] = this.time;
     data['allProductsModel'] = this.allProductsModel;
+    data["paymentMethod"] = this.paymentMethod;
     return data;
   }
 }

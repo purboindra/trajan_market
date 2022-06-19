@@ -27,185 +27,74 @@ class HomeController extends GetxController {
   List<AllProductsModel> _womensClothingProducts = [];
   List<AllProductsModel> get womensClothingProducts => _womensClothingProducts;
 
-  Future<void> getAllProducts() async {
-    try {
-      dataLoading.value = true;
+  Future<List<AllProductsModel>> getAllData() async {
+    var url = Uri.parse(AppConstant.BASE_URL + AppConstant.GET_ALL_PRODUCTS);
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      List jsonResponse = json.decode(response.body);
 
-      var url = Uri.parse(AppConstant.BASE_URL + AppConstant.GET_ALL_PRODUCTS);
-      var response = await http.get(url);
-
-      if (response.statusCode == 200) {
-        String responseBody = response.body;
-        var jsonBody = json.decode(responseBody);
-        for (var json in jsonBody) {
-          _allProductList.add(AllProductsModel(
-            id: json['id'],
-            title: json['title'],
-            price: json['price'],
-            description: json['description'],
-            category: json['category'],
-            image: json['image'],
-            rating: json['rating'] != null
-                ? new Rating.fromJson(json['rating'])
-                : null,
-          ));
-        }
-      }
-
-      dataLoading.value = false;
       update();
-    } catch (e) {
-      dataLoading.value = false;
-      // error.isTrue;
-      print(e.toString());
-    } finally {
-      dataLoading.value = false;
+      return jsonResponse.map((e) => AllProductsModel.fromJson(e)).toList();
+    } else {
+      throw Exception("Oops.. something wrong");
     }
   }
 
-  Future<void> getElectronicsProucts() async {
-    try {
-      dataLoading.value = true;
+  Future<List<AllProductsModel>> getAllElectronicsData() async {
+    var url = Uri.parse(AppConstant.GET_ELECTRONICS_PRODUCTS);
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      List jsonResponse = json.decode(response.body);
 
-      var url = Uri.parse(AppConstant.GET_ELECTRONICS_PRODUCTS);
-      var response = await http.get(url);
-
-      if (response.statusCode == 200) {
-        String responseBody = response.body;
-        var jsonBody = json.decode(responseBody);
-        for (var json in jsonBody) {
-          _electronicsProducts.add(AllProductsModel(
-            id: json['id'],
-            title: json['title'],
-            price: json['price'],
-            description: json['description'],
-            category: json['category'],
-            image: json['image'],
-            rating: json['rating'] != null
-                ? new Rating.fromJson(json['rating'])
-                : null,
-          ));
-        }
-      }
-
-      dataLoading.value = false;
       update();
-    } catch (e) {
-      dataLoading.value = false;
-      print(e.toString());
-    } finally {
-      dataLoading.value = false;
+      return jsonResponse.map((e) => AllProductsModel.fromJson(e)).toList();
+    } else {
+      throw Exception("Oops.. something wrong");
     }
   }
 
-  Future<void> getJeweleryProducts() async {
-    try {
-      dataLoading.value = true;
+  Future<List<AllProductsModel>> getJeweleryProducts() async {
+    var url = Uri.parse(AppConstant.GET_JEWELERY_PRODUCTS);
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      List jsonResponse = json.decode(response.body);
 
-      var url = Uri.parse(AppConstant.GET_JEWELERY_PRODUCTS);
-      var response = await http.get(url);
-
-      if (response.statusCode == 200) {
-        String responseBody = response.body;
-        var jsonBody = json.decode(responseBody);
-        for (var json in jsonBody) {
-          _jeweleryProducts.add(AllProductsModel(
-            id: json['id'],
-            title: json['title'],
-            price: json['price'],
-            description: json['description'],
-            category: json['category'],
-            image: json['image'],
-            rating: json['rating'] != null
-                ? new Rating.fromJson(json['rating'])
-                : null,
-          ));
-        }
-      }
-
-      dataLoading.value = false;
       update();
-    } catch (e) {
-      dataLoading.value = false;
-      print(e.toString());
-    } finally {
-      dataLoading.value = false;
+      return jsonResponse.map((e) => AllProductsModel.fromJson(e)).toList();
+    } else {
+      throw Exception("Oops.. something wrong");
     }
   }
 
-  Future<void> getMensClothingProducts() async {
-    try {
-      dataLoading.value = true;
+  Future<List<AllProductsModel>> getMensClothingProducts() async {
+    var url = Uri.parse(AppConstant.GET_MENS_PRODUCTS);
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      List jsonResponse = json.decode(response.body);
 
-      var url = Uri.parse(AppConstant.GET_MENS_PRODUCTS);
-      var response = await http.get(url);
-
-      if (response.statusCode == 200) {
-        String responseBody = response.body;
-        var jsonBody = json.decode(responseBody);
-        for (var json in jsonBody) {
-          _mensClothingProducts.add(AllProductsModel(
-            id: json['id'],
-            title: json['title'],
-            price: json['price'],
-            description: json['description'],
-            category: json['category'],
-            image: json['image'],
-            rating: json['rating'] != null
-                ? new Rating.fromJson(json['rating'])
-                : null,
-          ));
-        }
-      }
-
-      dataLoading.value = false;
       update();
-    } catch (e) {
-      dataLoading.value = false;
-      print(e.toString());
-    } finally {
-      dataLoading.value = false;
+      return jsonResponse.map((e) => AllProductsModel.fromJson(e)).toList();
+    } else {
+      throw Exception("Oops.. something wrong");
     }
   }
 
-  Future<void> getWomensClothingProducts() async {
-    try {
-      dataLoading.value = true;
+  Future<List<AllProductsModel>> getWomensClothingProducts() async {
+    var url = Uri.parse(AppConstant.GET_WOMENS_PRODUCTS);
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      List jsonResponse = json.decode(response.body);
 
-      var url = Uri.parse(AppConstant.GET_WOMENS_PRODUCTS);
-      var response = await http.get(url);
-
-      if (response.statusCode == 200) {
-        String responseBody = response.body;
-        var jsonBody = json.decode(responseBody);
-        for (var json in jsonBody) {
-          _womensClothingProducts.add(AllProductsModel(
-            id: json['id'],
-            title: json['title'],
-            price: json['price'],
-            description: json['description'],
-            category: json['category'],
-            image: json['image'],
-            rating: json['rating'] != null
-                ? new Rating.fromJson(json['rating'])
-                : null,
-          ));
-        }
-      }
-
-      dataLoading.value = false;
       update();
-    } catch (e) {
-      dataLoading.value = false;
-      print(e.toString());
-    } finally {
-      dataLoading.value = false;
+      return jsonResponse.map((e) => AllProductsModel.fromJson(e)).toList();
+    } else {
+      throw Exception("Oops.. something wrong");
     }
   }
 
   final List<Widget> page = [
     HomeView().buildAllProducts(),
-    HomeView().buildElectronics(),
+    HomeView().buildElectronicsProducts(),
     HomeView().buildJeweleryProducts(),
     HomeView().buildMensClothingProducts(),
     HomeView().buildWomensClothingProducts(),
@@ -214,10 +103,49 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getAllProducts();
-    getElectronicsProucts();
+    getAllData();
+
+    getAllElectronicsData();
     getJeweleryProducts();
     getMensClothingProducts();
     getWomensClothingProducts();
   }
 }
+
+
+
+  // Future<void> getAllProducts() async {
+  //   try {
+  //     dataLoading.value = true;
+
+  //     var url = Uri.parse(AppConstant.BASE_URL + AppConstant.GET_ALL_PRODUCTS);
+  //     var response = await http.get(url);
+
+  //     // if (response.statusCode == 200) {
+  //     String responseBody = response.body;
+  //     var jsonBody = json.decode(responseBody);
+  //     for (var json in jsonBody) {
+  //       _allProductList.add(AllProductsModel(
+  //         id: json['id'],
+  //         title: json['title'],
+  //         price: json['price'],
+  //         description: json['description'],
+  //         category: json['category'],
+  //         image: json['image'],
+  //         rating: json['rating'] != null
+  //             ? new Rating.fromJson(json['rating'])
+  //             : null,
+  //       ));
+  //     }
+  //     // }
+
+  //     dataLoading.value = false;
+  //     update();
+  //   } catch (e) {
+  //     dataLoading.value = false;
+
+  //     print(e.toString());
+  //   } finally {
+  //     dataLoading.value = false;
+  //   }
+  // }

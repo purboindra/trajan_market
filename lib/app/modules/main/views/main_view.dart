@@ -30,14 +30,11 @@ class MainView extends GetView<MainController> {
     "Women\'s Shoes",
     "Healthy",
     "Hobbies",
-    "Books",
+    "Products",
     "Sport & Outdoor",
   ];
   final box = GetStorage();
-  Map<String, dynamic> _user = {};
 
-  // final mainC = Get.find<MainController>();
-  // final mainC = Get.put(MainController());
   @override
   Widget build(BuildContext context) {
     Get.put(MainController());
@@ -48,8 +45,6 @@ class MainView extends GetView<MainController> {
       await Get.put(FavouriteController());
       await Get.put(SignInController());
       await Get.put(SignUpController());
-
-      // await Get.put(HomeController());
     });
     return Scaffold(
       body: Obx(
@@ -75,71 +70,103 @@ class MainView extends GetView<MainController> {
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.symmetric(
-          horizontal: Dimensions.w20 + 5,
+          horizontal: Dimensions.w20,
         ),
         child: Column(
           children: [
             //Header
             Container(
               margin: EdgeInsets.only(
-                  // top: Dimensions.h30 + Dimensions.h30,
-                  ),
-              child: Row(
-                children: [
-                  ClipOval(
-                    child: Container(
-                      width: Dimensions.w30 * 2.2,
-                      height: Dimensions.h30 * 2.2,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage("assets/casual.jpeg"),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: Dimensions.h15,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                top: Dimensions.h10,
+              ),
+              child: Obx(() => Row(
                     children: [
-                      Obx(
-                        () => controller.dataUser.value.firstName != null
-                            ? Text(
-                                '${controller.dataUser.value.firstName}',
-                                style: subHeadingStyle.copyWith(
-                                  color: Colors.black,
+                      controller.dataUser.value.photoUrl == null
+                          ? ClipOval(
+                              child: Container(
+                                width: Dimensions.w30 * 2.2,
+                                height: Dimensions.h30 * 2.2,
+                                decoration: BoxDecoration(
+                                  color: greyColor,
                                 ),
-                              )
-                            : Text("Login first"),
-                      ),
-                      SizedBox(
-                        height: Dimensions.h5,
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            "Office",
-                            style: titleStyle.copyWith(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w500,
+                                child: Center(
+                                  child: Icon(
+                                    CupertinoIcons.person,
+                                    size: Dimensions.w30 * 1.7,
+                                    color: Colors.grey.shade200,
+                                  ),
+                                ),
+                              ),
+                            )
+                          : ClipOval(
+                              child: Container(
+                                width: Dimensions.w30 * 2.2,
+                                height: Dimensions.h30 * 2.2,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: AssetImage("assets/casual.jpeg"),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
                             ),
+                      SizedBox(
+                        width: Dimensions.h15,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Obx(
+                            () => controller.dataUser.value.firstName != null
+                                ? Text(
+                                    '${controller.dataUser.value.firstName}',
+                                    style: subHeadingStyle.copyWith(
+                                      color: Colors.black,
+                                    ),
+                                  )
+                                : Text("Login first"),
                           ),
                           SizedBox(
-                            width: Dimensions.w5,
+                            height: Dimensions.h5,
                           ),
-                          Icon(
-                            CupertinoIcons.chevron_down,
-                            color: Colors.black,
-                            size: Dimensions.w20 - 2,
-                          ),
+                          controller.dataUser.value.address != null
+                              ? Row(
+                                  children: [
+                                    Text(
+                                      "Office",
+                                      style: titleStyle.copyWith(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: Dimensions.w5,
+                                    ),
+                                    Icon(
+                                      CupertinoIcons.chevron_down,
+                                      color: Colors.black,
+                                      size: Dimensions.w20 - 2,
+                                    ),
+                                  ],
+                                )
+                              : InkWell(
+                                  onTap: () {},
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "Please add your address",
+                                        style: titleStyle.copyWith(
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                         ],
                       ),
                     ],
-                  ),
-                ],
-              ),
+                  )),
             ),
             SizedBox(
               height: Dimensions.h20,

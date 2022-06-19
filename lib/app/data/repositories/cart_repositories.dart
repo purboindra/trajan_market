@@ -58,6 +58,7 @@ class CartRepository {
     List<CartModel> cartHistoryList = [];
     cartHistory.forEach((element) {
       cartHistoryList.add(CartModel.fromJson(jsonDecode(element)));
+      // print(element);
     });
 
     return cartHistoryList;

@@ -36,5 +36,7 @@ class FavouriteRepositories {
     favCart.forEach((element) {
       favourite.remove(element.id);
     });
+    favourite = [];
+    box.remove(AppConstant.ADD_FAVOURITE);
   }
 }

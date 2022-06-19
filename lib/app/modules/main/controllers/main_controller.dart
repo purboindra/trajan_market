@@ -68,7 +68,7 @@ class MainController extends GetxController {
   RxList<MainCategoryModel> listOfCategoryMain = [
     MainCategoryModel(
       image: "assets/main_category_books.png",
-      title: "Books",
+      title: "Products",
     ),
     MainCategoryModel(
       image: "assets/main_category_fashion_accecoriss.png",

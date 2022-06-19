@@ -301,7 +301,7 @@ class CartView extends GetView<CartController> {
                                       ),
                                     ),
                                     onPressed: () {
-                                      Get.offNamed(Routes.HOME);
+                                      Get.offAllNamed(Routes.MAIN);
                                     },
                                     child: Text(
                                       "Start Shopping",

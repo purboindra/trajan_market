@@ -36,7 +36,6 @@ class HistoryCartView extends GetView<HistoryCartController> {
     }
 
     List<int> cartItemsPerOrderToList() {
-      // return cartItemsPerOrder.entries.map((e) => e.key).toList();
       return cartItemsPerOrder.entries.map((e) => e.value).toList();
     }
 
@@ -46,40 +45,7 @@ class HistoryCartView extends GetView<HistoryCartController> {
 
     var listCounter = 0;
 
-    // Get.find<CartController>().addToCartList();
     Get.find<CartController>().addToDetailsOrder();
-
-    // Widget timeWidget(int index) {
-    //   var dateOutput = DateTime.now().toIso8601String();
-    //   if (index < cartHistoryC.length) {
-    //     DateTime dateParse =
-    //         DateFormat("yyyy-MM-dd HH:mmm").parse(cartHistoryC[index].time!);
-
-    //     var dateInput = DateTime.parse(dateParse.toIso8601String());
-    //     var formatOutput = DateFormat("yyyy/MM/dd/hh:mm");
-    //     dateOutput = formatOutput.format(dateInput);
-    //   }
-    //   return RichText(
-    //     text: TextSpan(
-    //       style: DefaultTextStyle.of(context).style,
-    //       children: [
-    //         TextSpan(
-    //           text: "${dateOutput}",
-    //           style: titleStyle.copyWith(
-    //             color: darkGrey,
-    //           ),
-    //         ),
-    //         TextSpan(text: "  "),
-    //         TextSpan(
-    //             text: "Selesai",
-    //             style: subTitleStyle.copyWith(
-    //               fontWeight: FontWeight.w500,
-    //               color: primaryColor,
-    //             )),
-    //       ],
-    //     ),
-    //   );
-    // }
 
     return Scaffold(
       appBar: AppBar(
@@ -343,13 +309,58 @@ class HistoryCartView extends GetView<HistoryCartController> {
               ),
             )
           : Center(
-              child: Text("NOTHING"),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: Dimensions.h20 * 10,
+                    child: Image.asset(
+                      "assets/empty_favourite.png",
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  SizedBox(
+                    height: Dimensions.h10,
+                  ),
+                  Text(
+                    "Oops.. you have nothing here",
+                    style: titleStyle.copyWith(
+                      color: Colors.black,
+                    ),
+                  ),
+                  SizedBox(
+                    height: Dimensions.h20,
+                  ),
+                  Container(
+                    width: Dimensions.w20 * 15,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.black,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        padding: EdgeInsets.all(
+                          Dimensions.w15,
+                        ),
+                      ),
+                      onPressed: () {
+                        // Get.offNamed(AppPages.getInitial());
+                      },
+                      child: Text(
+                        "Start Shopping",
+                        style: titleStyle.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Get.find<CartController>().removeCartHistory();
-        },
-      ),
+      // floatingActionButton: FloatingActionButton(onPressed: () {
+      //   Get.find<CartController>().removeCartHistory();
+      // }),
     );
   }
 }

@@ -71,7 +71,6 @@ class CartController extends GetxController {
   void addItems(AllProductsModel allProductsModel, int quantity) {
     var totalQuantity = 0.obs;
     if (_items.containsKey(allProductsModel.id)) {
-      print("items constainkey ${allProductsModel.id}");
       _items.update(allProductsModel.id!, (value) {
         totalQuantity.value = value.quantity! + quantity;
 
@@ -84,6 +83,7 @@ class CartController extends GetxController {
           image: value.image,
           isExist: true,
           quantity: quantity + value.quantity!,
+          paymentMethod: _selectIndexPayment.value,
           time: DateTime.now().toIso8601String(),
           allProductsModel: allProductsModel,
         );
@@ -91,38 +91,7 @@ class CartController extends GetxController {
 
       if (totalQuantity <= 0) {
         _items.remove(allProductsModel.id);
-        // itemsDetails.remove(allProductsModel.id);
-        print("remove items ${allProductsModel.title}");
-        var indexItems = allProductsModel.id!.toInt() - 1;
-        Get.rawSnackbar(
-            message: "Delete ${allProductsModel.title} from cart",
-            onTap: (getSnackBar) {
-              Get.toNamed(AppPages.getDetailsPage(indexItems, "details"));
-            });
-      }
-    } else if (itemsDetails.containsKey(allProductsModel.id)) {
-      itemsDetails.update(allProductsModel.id!, (value) {
-        totalQuantity.value = value.quantity! + quantity;
-        print("items details constainkey ${allProductsModel.id}");
-        print("itemsDetails $itemsDetails");
-        return CartModel(
-          id: value.id,
-          title: value.title,
-          price: value.price,
-          description: value.description,
-          category: value.category,
-          image: value.image,
-          isExist: true,
-          quantity: quantity + value.quantity!,
-          time: DateTime.now().toIso8601String(),
-          allProductsModel: allProductsModel,
-        );
-      });
-      print("current $itemsDetails");
-      if (totalQuantity <= 0) {
-        print("remove items details ${allProductsModel.title}");
-        // _items.remove(allProductsModel.id);
-        itemsDetails.remove(allProductsModel.id);
+
         var indexItems = allProductsModel.id!.toInt() - 1;
         Get.rawSnackbar(
             message: "Delete ${allProductsModel.title} from cart",
@@ -145,22 +114,7 @@ class CartController extends GetxController {
             isExist: true,
             quantity: quantity,
             time: DateTime.now().toIso8601String(),
-            allProductsModel: allProductsModel,
-          );
-        });
-        itemsDetails.putIfAbsent(allProductsModel.id!, () {
-          print(
-              "adding items put if absent items details ${allProductsModel.id} and quantitiy is $quantity");
-          return CartModel(
-            id: allProductsModel.id,
-            title: allProductsModel.title,
-            price: allProductsModel.price,
-            description: allProductsModel.description,
-            category: allProductsModel.category,
-            image: allProductsModel.image,
-            isExist: true,
-            quantity: quantity,
-            time: DateTime.now().toIso8601String(),
+            paymentMethod: _selectIndexPayment.value,
             allProductsModel: allProductsModel,
           );
         });
@@ -213,12 +167,6 @@ class CartController extends GetxController {
 
   List<CartModel> get getItems {
     return _items.entries.map((e) {
-      // itemsDetails.addAll(_items);
-      // print("items detail ${itemsDetails}");
-      // if (itemsDetails.containsKey(e)) {
-      //   _items.addAll(itemsDetails);
-      // }
-
       return e.value;
     }).toList();
   }
@@ -280,6 +228,7 @@ class CartController extends GetxController {
 
   void removeCartHistory() {
     _items.clear();
+    print(_items.length);
     box.remove(AppConstant.CART_HISTORY_LIST);
     update();
   }
